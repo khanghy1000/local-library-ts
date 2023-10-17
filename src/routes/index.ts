@@ -3,7 +3,7 @@ import authorRouter from "./authorRoutes";
 
 const router = express.Router();
 
-router.use("/api/author", authorRouter);
+router.use("/api/authors", authorRouter);
 
 export default router;
 

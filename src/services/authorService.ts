@@ -17,7 +17,7 @@ export const findById = async (authorId: string): Promise<Author | null> => {
     return author;
 };
 
-export const create = async (author: NoIDAuthor): Promise<NoIDAuthor> => {
+export const create = async (author: NoIDAuthor): Promise<Author> => {
     const newAuthor = await prisma.author.create({
         data: {
             firstName: author.firstName,

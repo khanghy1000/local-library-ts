@@ -16,8 +16,8 @@ export const create = asyncHandler(async (req, res) => {
             noIDAuthorSchema.parse({
                 firstName,
                 familyName,
-                dateOfBirth: new Date(dateOfBirth),
-                dateOfDeath,
+                dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : undefined,
+                dateOfDeath: dateOfDeath ? new Date(dateOfDeath) : undefined,
             }),
         );
         res.json(newAuthor);
