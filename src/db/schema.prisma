@@ -13,7 +13,6 @@ datasource db {
 model Genre {
   id   String @id @default(uuid())
   name String
-  url  String
   book Book[]
 }
 
