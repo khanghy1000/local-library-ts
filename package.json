@@ -7,7 +7,7 @@
     },
     "scripts": {
         "start": "ts-node ./src/bin/www.ts",
-        "dev": "nodemon ./src/bin/www.ts"
+        "dev": "set DEBUG=app:* & nodemon ./src/bin/www.ts"
     },
     "dependencies": {
         "@prisma/client": "^5.4.2",

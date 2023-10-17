@@ -8,13 +8,13 @@ import app from "../app";
 import debugFactory from "debug";
 import http from "http";
 
-const debug = debugFactory("template:server");
+const debug = debugFactory("app:server");
 
 /**
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || "3000");
+const port = normalizePort(process.env.PORT || "3001");
 app.set("port", port);
 
 /**
@@ -87,5 +87,8 @@ function onListening() {
         const bind =
             typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
         debug("Listening on " + bind);
+        if (typeof addr !== "string") {
+            debug(`http://localhost:${port}/`);
+        }
     }
 }
