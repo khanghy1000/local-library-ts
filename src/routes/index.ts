@@ -1,9 +1,11 @@
 import express from "express";
 import authorRouter from "./authorRoutes";
+import genreRouter from "./genreRoutes";
 
 const router = express.Router();
 
 router.use("/api/authors", authorRouter);
+router.use("/api/genres", genreRouter);
 
 export default router;
 
