@@ -8,8 +8,8 @@ export const BookInstanceSchema = z.object({
     bookId: z.string().uuid(),
 });
 
-export const noIDBookInstanceSchema = BookInstanceSchema.omit({ id: true });
+export const NoIDBookInstanceSchema = BookInstanceSchema.omit({ id: true });
 
 export type BookInstance = z.infer<typeof BookInstanceSchema>;
 
-export type NoIDBookInstance = z.infer<typeof noIDBookInstanceSchema>;
+export type NoIDBookInstance = z.infer<typeof NoIDBookInstanceSchema>;
