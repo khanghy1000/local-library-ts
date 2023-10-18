@@ -7,9 +7,11 @@
     },
     "scripts": {
         "start": "ts-node ./src/bin/www.ts",
+        "mockData": "ts-node ./src/mockData.ts",
         "dev": "set DEBUG=app:* & nodemon ./src/bin/www.ts"
     },
     "dependencies": {
+        "@faker-js/faker": "^8.2.0",
         "@prisma/client": "^5.4.2",
         "bcrypt": "^5.1.1",
         "cookie-parser": "~1.4.4",
