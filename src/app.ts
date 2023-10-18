@@ -6,6 +6,9 @@ import logger from "morgan";
 import "dotenv/config";
 
 import indexRouter from "./routes/index";
+import { ZodError } from "zod";
+import { StatusCodes } from "http-status-codes";
+import { fromZodError } from "zod-validation-error";
 
 const app = express();
 
@@ -24,6 +27,14 @@ app.use(function (req, res, next) {
 
 // error handler
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+    if (err instanceof ZodError) {
+        res.status(StatusCodes.BAD_REQUEST).json({
+            status: res.statusCode,
+            errors: fromZodError(err).toString().split("; "),
+        });
+        return;
+    }
+
     res.status(err.status || 500);
     res.json({
         status: res.statusCode,
