@@ -14,8 +14,8 @@ export const findById = async (bookId: string): Promise<Book | null> => {
         },
         include: {
             author: true,
-            genre: true,
-            bookInstance: true,
+            genres: true,
+            bookInstances: true,
         },
     });
 };
@@ -27,14 +27,14 @@ export const create = async (book: NoIDBook): Promise<Book> => {
             summary: book.summary,
             ISBN: book.ISBN,
             authorId: book.authorId,
-            genre: {
-                connect: book.genre,
+            genres: {
+                connect: book.genres,
             },
         },
         include: {
             author: true,
-            genre: true,
-            bookInstance: true,
+            genres: true,
+            bookInstances: true,
         },
     });
 };
@@ -49,14 +49,14 @@ export const update = async (book: Book): Promise<Book> => {
             summary: book.summary,
             ISBN: book.ISBN,
             authorId: book.authorId,
-            genre: {
-                set: book.genre,
+            genres: {
+                set: book.genres,
             },
         },
         include: {
             author: true,
-            genre: true,
-            bookInstance: true,
+            genres: true,
+            bookInstances: true,
         },
     });
 };
