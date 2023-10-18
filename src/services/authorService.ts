@@ -4,44 +4,40 @@ import { Author, NoIDAuthor } from "../schemas/Author";
 const prisma = new PrismaClient();
 
 export const findAll = async (): Promise<Author[]> => {
-    const authors = await prisma.author.findMany();
-    return authors;
+    return prisma.author.findMany();
 };
 
 export const findById = async (authorId: string): Promise<Author | null> => {
-    const author = await prisma.author.findFirst({
+    return prisma.author.findFirst({
         where: {
             id: authorId,
         },
     });
-    return author;
 };
 
 export const create = async (author: NoIDAuthor): Promise<Author> => {
-    const newAuthor = await prisma.author.create({
+    return prisma.author.create({
         data: {
             firstName: author.firstName,
             familyName: author.familyName,
-            dateOfBirth: author.dateOfBirth ? author.dateOfBirth : undefined,
-            dateOfDeath: author.dateOfDeath ? author.dateOfDeath : undefined,
+            dateOfBirth: author.dateOfBirth,
+            dateOfDeath: author.dateOfDeath,
         },
     });
-    return newAuthor;
 };
 
 export const update = async (author: Author): Promise<Author> => {
-    const updatedAuthor = await prisma.author.update({
+    return prisma.author.update({
         where: {
             id: author.id,
         },
         data: {
-            firstName: author.firstName ? author.firstName : undefined,
-            familyName: author.familyName ? author.familyName : undefined,
-            dateOfBirth: author.dateOfBirth ? author.dateOfBirth : undefined,
-            dateOfDeath: author.dateOfDeath ? author.dateOfDeath : undefined,
+            firstName: author.firstName,
+            familyName: author.familyName,
+            dateOfBirth: author.dateOfBirth,
+            dateOfDeath: author.dateOfDeath,
         },
     });
-    return updatedAuthor;
 };
 
 export const deleteById = async (authorId: string): Promise<void> => {
