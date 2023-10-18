@@ -1,8 +1,14 @@
 import asyncHandler from "express-async-handler";
 import * as authorService from "../services/authorService";
-import { NoIDAuthorSchema } from "../schemas/Author";
-import { ZodError } from "zod";
-import { fromZodError } from "zod-validation-error";
+import { AuthorSchema, NoIDAuthorSchema } from "../schemas/Author";
+import { z } from "zod";
+
+export const findById = asyncHandler(async (req, res) => {
+    const author = await authorService.findById(
+        z.string().uuid().parse(req.params.id),
+    );
+    res.json(author);
+});
 
 export const findAll = asyncHandler(async (req, res) => {
     const authors = await authorService.findAll();
@@ -11,30 +17,33 @@ export const findAll = asyncHandler(async (req, res) => {
 
 export const create = asyncHandler(async (req, res) => {
     const { firstName, familyName, dateOfBirth, dateOfDeath } = req.body;
-    try {
-        const newAuthor = await authorService.create(
-            NoIDAuthorSchema.parse({
-                firstName,
-                familyName,
-                dateOfBirth: dateOfBirth,
-                dateOfDeath: dateOfDeath,
-            }),
-        );
-        res.json(newAuthor);
-    } catch (err) {
-        if (err instanceof ZodError) {
-            res.status(401).json({
-                status: res.statusCode,
-                error: String(fromZodError(err)).split("; "),
-            });
-            return;
-        }
+    const newAuthor = await authorService.create(
+        NoIDAuthorSchema.parse({
+            firstName,
+            familyName,
+            dateOfBirth,
+            dateOfDeath,
+        }),
+    );
+    res.json(newAuthor);
+});
 
-        if (err instanceof Error) {
-            res.status(404).json({
-                status: res.statusCode,
-                error: err.message,
-            });
-        }
-    }
+export const update = asyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const { firstName, familyName, dateOfBirth, dateOfDeath } = req.body;
+
+    const updatedAuthor = await authorService.update(
+        AuthorSchema.parse({
+            id,
+            firstName,
+            familyName,
+            dateOfBirth,
+            dateOfDeath,
+        }),
+    );
+    res.json(updatedAuthor);
+});
+
+export const deleteById = asyncHandler(async (req, res) => {
+    await authorService.deleteById(z.string().uuid().parse(req.params.id));
 });
