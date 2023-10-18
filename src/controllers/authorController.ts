@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import * as authorService from "../services/authorService";
-import { noIDAuthorSchema } from "../schemas/Author";
+import { NoIDAuthorSchema } from "../schemas/Author";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 
@@ -13,11 +13,11 @@ export const create = asyncHandler(async (req, res) => {
     const { firstName, familyName, dateOfBirth, dateOfDeath } = req.body;
     try {
         const newAuthor = await authorService.create(
-            noIDAuthorSchema.parse({
+            NoIDAuthorSchema.parse({
                 firstName,
                 familyName,
-                dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : undefined,
-                dateOfDeath: dateOfDeath ? new Date(dateOfDeath) : undefined,
+                dateOfBirth: dateOfBirth,
+                dateOfDeath: dateOfDeath,
             }),
         );
         res.json(newAuthor);
