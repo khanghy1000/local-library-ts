@@ -1,8 +1,16 @@
 import asyncHandler from "express-async-handler";
 import * as genreService from "../services/genreService";
-import { ZodError } from "zod";
-import { fromZodError } from "zod-validation-error";
 import { noIDGenreSchema } from "../schemas/Genre";
+import { z } from "zod";
+import * as authorService from "../services/authorService";
+import { AuthorSchema } from "../schemas/Author";
+
+export const findById = asyncHandler(async (req, res) => {
+    const genre = await genreService.findById(
+        z.string().uuid().parse(req.params.id),
+    );
+    res.json(genre);
+});
 
 export const findAll = asyncHandler(async (req, res) => {
     const genres = await genreService.findAll();
@@ -11,27 +19,26 @@ export const findAll = asyncHandler(async (req, res) => {
 
 export const create = asyncHandler(async (req, res) => {
     const { name } = req.body;
-    try {
-        const newGenre = await genreService.create(
-            noIDGenreSchema.parse({
-                name,
-            }),
-        );
-        res.json(newGenre);
-    } catch (err) {
-        if (err instanceof ZodError) {
-            res.status(401).json({
-                status: res.statusCode,
-                error: String(fromZodError(err)).split("; "),
-            });
-            return;
-        }
+    const newGenre = await genreService.create(
+        noIDGenreSchema.parse({
+            name,
+        }),
+    );
+    res.json(newGenre);
+});
 
-        if (err instanceof Error) {
-            res.status(404).json({
-                status: res.statusCode,
-                error: err.message,
-            });
-        }
-    }
+export const update = asyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const { name } = req.body;
+    const updatedGenre = await authorService.update(
+        AuthorSchema.parse({
+            id,
+            name,
+        }),
+    );
+    res.json(updatedGenre);
+});
+
+export const deleteById = asyncHandler(async (req, res) => {
+    await genreService.deleteById(z.string().uuid().parse(req.params.id));
 });
