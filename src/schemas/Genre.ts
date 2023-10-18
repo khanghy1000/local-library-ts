@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const GenreSchema = z.object({
-    id: z.string(),
+    id: z.string().uuid(),
     name: z.string(),
 });
 

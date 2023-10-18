@@ -1,15 +1,15 @@
 import { z } from "zod";
 
 export const AuthorSchema = z.object({
-    id: z.string(),
+    id: z.string().uuid(),
     firstName: z.string(),
     familyName: z.string(),
-    dateOfBirth: z.date().optional().nullable(),
-    dateOfDeath: z.date().optional().nullable(),
+    dateOfBirth: z.coerce.date().nullish(),
+    dateOfDeath: z.coerce.date().nullish(),
 });
 
-export const noIDAuthorSchema = AuthorSchema.omit({ id: true });
+export const NoIDAuthorSchema = AuthorSchema.omit({ id: true });
 
 export type Author = z.infer<typeof AuthorSchema>;
 
-export type NoIDAuthor = z.infer<typeof noIDAuthorSchema>;
+export type NoIDAuthor = z.infer<typeof NoIDAuthorSchema>;
