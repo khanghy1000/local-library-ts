@@ -4,38 +4,34 @@ import { Genre, NoIDGenre } from "../schemas/Genre";
 const prisma = new PrismaClient();
 
 export const findAll = async (): Promise<Genre[]> => {
-    const genres = await prisma.genre.findMany();
-    return genres;
+    return prisma.genre.findMany();
 };
 
 export const findById = async (genreId: string): Promise<Genre | null> => {
-    const genre = await prisma.genre.findFirst({
+    return prisma.genre.findFirst({
         where: {
             id: genreId,
         },
     });
-    return genre;
 };
 
 export const create = async (genre: NoIDGenre): Promise<Genre> => {
-    const newGenre = await prisma.genre.create({
+    return prisma.genre.create({
         data: {
             name: genre.name,
         },
     });
-    return newGenre;
 };
 
 export const update = async (genre: Genre): Promise<Genre> => {
-    const updatedGenre = await prisma.genre.update({
+    return prisma.genre.update({
         where: {
             id: genre.id,
         },
         data: {
-            name: genre.name ? genre.name : undefined,
+            name: genre.name,
         },
     });
-    return updatedGenre;
 };
 
 export const deleteById = async (genreId: string): Promise<void> => {
