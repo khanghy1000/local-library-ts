@@ -11,20 +11,20 @@ datasource db {
 }
 
 model Genre {
-  id   String @id @default(uuid())
-  name String
-  book Book[]
+  id    String @id @default(uuid())
+  name  String
+  books Book[]
 }
 
 model Book {
-  id           String         @id @default(uuid())
-  title        String
-  summary      String
-  ISBN         String
-  genre        Genre[]
-  author       Author         @relation(fields: [authorId], references: [id])
-  authorId     String
-  bookInstance BookInstance[]
+  id            String        @id @default(uuid())
+  title         String
+  summary       String
+  ISBN          String
+  genres        Genre[]
+  author        Author        @relation(fields: [authorId], references: [id])
+  authorId      String
+  bookInstances BookInstance[]
 }
 
 model BookInstance {
