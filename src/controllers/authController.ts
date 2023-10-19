@@ -5,42 +5,39 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const login = asyncHandler(async (req, res, next) => {
-    const { username, password } = req.body;
-    if (!username || !password) {
-        res.sendStatus(403);
-        return;
-    }
+    const parsedUserInput = UserSchema.parse(req.body);
 
-    const user = await authService.findByUsername(username);
+    const user = await authService.findByUsername(parsedUserInput.username);
     if (user === null) {
         res.sendStatus(403);
         return;
     }
 
-    bcrypt.compare(password, user.password, async (err, result) => {
-        if (err || !result) {
-            res.sendStatus(403);
-        } else {
-            try {
-                const token = jwt.sign(
-                    NoPasswordUserSchema.parse(user),
-                    process.env.JWT_SECRET as string,
-                );
-                res.json({ token });
-            } catch (er) {
-                next(err);
+    bcrypt.compare(
+        parsedUserInput.password,
+        user.password,
+        async (err, result) => {
+            if (err || !result) {
+                res.sendStatus(403);
+            } else {
+                try {
+                    const token = jwt.sign(
+                        NoPasswordUserSchema.parse(user),
+                        process.env.JWT_SECRET as string,
+                    );
+                    res.json({ token });
+                } catch (er) {
+                    next(err);
+                }
             }
-        }
-    });
+        },
+    );
 });
 
 export const signup = asyncHandler(async (req, res, next) => {
-    const { username, password, role } = req.body;
-    if (!username || !password) {
-        res.sendStatus(403);
-        return;
-    }
-    const user = await authService.findByUsername(username);
+    const parsedUserInput = UserSchema.parse(req.body);
+
+    const user = await authService.findByUsername(parsedUserInput.username);
     if (user !== null) {
         res.status(409).json({
             status: res.statusCode,
@@ -49,16 +46,16 @@ export const signup = asyncHandler(async (req, res, next) => {
         return;
     }
 
-    bcrypt.hash(password, 10, async (err, hashedPassword) => {
+    bcrypt.hash(parsedUserInput.password, 10, async (err, hashedPassword) => {
         if (err) {
             res.sendStatus(403);
         } else {
             try {
                 await authService.createNewUser(
                     UserSchema.parse({
-                        username,
+                        username: parsedUserInput.username,
                         password: hashedPassword,
-                        role,
+                        role: parsedUserInput.role,
                     }),
                 );
                 res.sendStatus(201);
