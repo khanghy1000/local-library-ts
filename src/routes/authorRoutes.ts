@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get("/", authorController.findAll);
 router.post("/", verifyToken, authorizeEditor, authorController.create);
-router.get("/:id", verifyToken, authorizeEditor, authorController.findById);
+router.get("/:id", authorController.findById);
 router.put("/:id", verifyToken, authorizeEditor, authorController.update);
 router.delete("/:id", verifyToken, authorizeAdmin, authorController.deleteById);
 
