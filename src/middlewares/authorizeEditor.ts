@@ -1,14 +1,14 @@
 import { RequestHandler } from "express";
 
-const authorizeAdmin: RequestHandler = (req, res, next) => {
+const authorizeEditor: RequestHandler = (req, res, next) => {
     if (!req.decoded) {
         res.sendStatus(403);
     } else {
-        if (req.decoded.role === "Admin") {
+        if (req.decoded.role === "Editor" || req.decoded.role === "Admin") {
             next();
         } else {
             res.sendStatus(403);
         }
     }
 };
-export default authorizeAdmin;
+export default authorizeEditor;
