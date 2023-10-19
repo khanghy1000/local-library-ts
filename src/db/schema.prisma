@@ -17,12 +17,12 @@ model Genre {
 }
 
 model Book {
-  id            String        @id @default(uuid())
+  id            String  @id @default(uuid())
   title         String
   summary       String
   ISBN          String
   genres        Genre[]
-  author        Author        @relation(fields: [authorId], references: [id])
+  author        Author  @relation(fields: [authorId], references: [id])
   authorId      String
   bookInstances BookInstance[]
 }
@@ -50,4 +50,15 @@ model Author {
   dateOfBirth DateTime?
   dateOfDeath DateTime?
   book        Book[]
+}
+
+model User {
+  username String @id
+  password String
+  role     Role   @default(Editor)
+}
+
+enum Role {
+  Editor
+  Admin
 }
