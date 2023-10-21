@@ -1,4 +1,4 @@
-# Example TypeScript App
+# Example TypeScript Express App
 
 Express + TypeScript + PrismaOrm + Zod
 
@@ -8,3 +8,4 @@ Express + TypeScript + PrismaOrm + Zod
 DATABASE_URL="postgresql_connection_string"
 JWT_SECRET="JWT_secret"
 ```
+
