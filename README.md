@@ -1,6 +1,6 @@
 # Example TypeScript Express App
 
-Express + TypeScript + PrismaOrm + Zod
+Express + TypeScript + PrismaORM + Zod
 
 ## .env
 
