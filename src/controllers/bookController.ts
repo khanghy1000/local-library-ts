@@ -57,4 +57,5 @@ export const update = asyncHandler(async (req, res) => {
 
 export const deleteById = asyncHandler(async (req, res) => {
     await bookService.deleteById(z.string().uuid().parse(req.params.id));
+    res.json({ message: "success" });
 });
